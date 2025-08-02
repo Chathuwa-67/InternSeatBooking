@@ -1,4 +1,4 @@
-# Use official PHP image with extensions Laravel needs
+# Use official PHP image
 FROM php:8.2-fpm
 
 # Install system dependencies
@@ -27,15 +27,17 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions (optional but recommended)
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www
+# Set permissions
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 
-# Laravel-specific: cache config, routes, views
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+# Generate config, route, and view caches
+RUN php artisan config:clear \
+ && php artisan config:cache \
+ && php artisan route:cache \
+ && php artisan view:cache
 
-# Expose port and run Laravel server
+# Expose port
 EXPOSE 8000
+
+# Start Laravel server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
