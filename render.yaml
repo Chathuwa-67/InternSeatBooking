@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: laravel-app
+    env: php
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan config:clear
+      php artisan route:clear
+      php artisan view:clear
+    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        value: mysql-internseat.alwaysdata.net
+      - key: DB_PORT
+        value: 3306
+      - key: DB_DATABASE
+        value: internseat_seatbooking
+      - key: DB_USERNAME
+        value: 425037
+      - key: DB_PASSWORD
+        value: u_kkyfEx3A*rksF
